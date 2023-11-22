@@ -39,13 +39,30 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    //all toys route
+    //all toys api
     const alltoysCollection=client.db('toydb').collection('alltoys');
-    app.get('/alltoys',async(req,res)=>{
-      const result=await alltoysCollection.find().toArray();
+   
+
+    //categorized toys api
+    app.get('/shop', async(req,res)=>{
+      let query={};
+      if(req.query?.sub_category){
+        query={sub_category:req.query.sub_category};
+      }
+
+      const result=await alltoysCollection.find(query).toArray();
       res.send(result);
     })
     
+    //all toys api
+    app.get('/all',async(req,res)=>{
+      const search=req.query.search;
+      const query={name:{$regex:search,$options:'i'}};
+      console.log(search);
+      const cursor=alltoysCollection.find(query);
+      const result=await cursor.toArray();
+      res.send(result);
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
