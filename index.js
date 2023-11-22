@@ -38,6 +38,14 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    //all toys route
+    const alltoysCollection=client.db('toydb').collection('alltoys');
+    app.get('/alltoys',async(req,res)=>{
+      const result=await alltoysCollection.find().toArray();
+      res.send(result);
+    })
+    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
