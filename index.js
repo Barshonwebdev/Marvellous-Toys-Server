@@ -71,6 +71,13 @@ async function run() {
       const result= await alltoysCollection.findOne(query);
       res.send(result);
     })
+    //single figure update data get api
+    app.get('/my/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:new ObjectId(id)};
+      const result= await alltoysCollection.findOne(query);
+      res.send(result);
+    })
 
     //my toys api
     app.get('/my',async(req,res)=>{ 
@@ -93,6 +100,23 @@ async function run() {
       const id=req.params.id;
       const query={_id:new ObjectId(id)};
       const result=await alltoysCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    // toy update api
+    app.patch('/my/:id',async(req,res)=>{
+      const updatedFigure=req.body;
+      const id=req.params.id;
+      const filter={_id:new ObjectId(id)};
+      const newFigureData={
+        $set:{
+          price:updatedFigure.price,
+          available_quantity:updatedFigure.available_quantity,
+          description:updatedFigure.description,
+        }
+      };
+
+      const result=await alltoysCollection.updateOne(filter,newFigureData);
       res.send(result);
     })
     //add figurine api
