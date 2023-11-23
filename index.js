@@ -71,6 +71,26 @@ async function run() {
       const result= await alltoysCollection.findOne(query);
       res.send(result);
     })
+
+    //my toys api
+    app.get('/my',async(req,res)=>{
+      let query={};
+      if(req.query?.selleremail){
+        query={selleremail:req.query.selleremail}
+      }
+
+      const result=await alltoysCollection.find(query).toArray();
+      res.send(result);
+    })
+
+    //add figurine api
+    app.post('/add', async(req,res)=>{
+      const singleFigurine=req.body;
+      console.log(singleFigurine);
+      const result=await alltoysCollection.insertOne(singleFigurine);
+      res.send(result);
+    })
+    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
