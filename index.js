@@ -73,13 +73,18 @@ async function run() {
     })
 
     //my toys api
-    app.get('/my',async(req,res)=>{
+    app.get('/my',async(req,res)=>{ 
+      const sort=req.query.sort;
       let query={};
       if(req.query?.selleremail){
         query={selleremail:req.query.selleremail}
       }
-
-      const result=await alltoysCollection.find(query).toArray();
+      const options= {
+        sort:{
+          "price": sort=== 'asc'? 1 : -1
+        }
+      }
+      const result=await alltoysCollection.find(query,options).toArray();
       res.send(result);
     })
 
