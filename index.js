@@ -88,6 +88,13 @@ async function run() {
       res.send(result);
     })
 
+    //my toys delete api
+    app.delete('/my/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:new ObjectId(id)};
+      const result=await alltoysCollection.deleteOne(query);
+      res.send(result);
+    })
     //add figurine api
     app.post('/add', async(req,res)=>{
       const singleFigurine=req.body;
