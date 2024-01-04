@@ -1,12 +1,12 @@
 const express = require('express');
-const app=express();
 const cors = require('cors');
+const app=express();
+app.use(cors());
 require('dotenv').config();
 const port=process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 //middleware
-app.use(cors());
 app.use(express.json());
 
 //api
