@@ -46,7 +46,7 @@ async function run() {
     //categorized toys api
     app.get('/shop', async(req,res)=>{
       let query={};
-      if(req.query?.sub_category){
+      if(req.query.sub_category){
         query={sub_category:req.query.sub_category};
       }
 
